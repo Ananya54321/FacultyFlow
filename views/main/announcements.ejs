@@ -4,25 +4,23 @@
   <!-- to add a message/ announcements tab -->
   <h1>Announcements for <%= dept.name %></h1>
 
-  <% if (announcements.length > 0) { %> <% for (let i = 0; i <
-  announcements.length; i++) { %>
+  <% if (announcements) {%>
   <div>
-    <h2>Department: <%= announcements[i].department.name %></h2>
     <ul>
-      <% for (let j = 0; j < announcements[i].messages.length; j++) { %>
+      <% for (let j = 0; j < announcements.messages.length; j++) { %>
       <li>
-        <strong><%= announcements[i].messages[j].teacher.name %>:</strong> <%=
-        announcements[i].messages[j].msg %>
+        <strong><%= announcements.messages[j].displayname %>:</strong> <%=
+        announcements.messages[j].msg %>
       </li>
       <% } %>
     </ul>
   </div>
   <hr />
-  <form action="/announcements/department.anouncement._id/new">
+  <form action="/departments/<%= dept._id %>/announcements" method="post">
     <textarea name="msg" id="msg"></textarea>
     <button>submit</button>
   </form>
-  <% } %> <% } else { %>
+  <% } else { %>
   <p>No announcements available.</p>
   <% } %>
 </body>

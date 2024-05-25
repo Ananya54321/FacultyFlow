@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const Teacher = require("./teacher.js");
+const Announcement = require("./announcement.js");
 
 const departmentSchema = new Schema({
   deptname: {
@@ -18,10 +19,6 @@ const departmentSchema = new Schema({
       ref: "Teacher",
     },
   ],
-  admin: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
 });
 
 const Department = mongoose.model("Department", departmentSchema);

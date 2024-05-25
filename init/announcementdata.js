@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Teacher = require("../models/teacher.js");
 const Department = require("../models/department.js");
 const Announcement = require("../models/announcement.js");
+const User = require("../models/user.js");
 
 const MONGO_URL =
   "mongodb+srv://22b81a05y9:ananya521@clusterprojects.7x4tczd.mongodb.net/fwms";
@@ -24,15 +25,16 @@ const addAnnouncement = async () => {
   await Announcement.deleteMany({}); // Clear previous announcements
 
   try {
-    const ecedept = await Department.findOne({ deptcode: "ECE" });
-    const eceteach = ecedept.teachers[0];
+    const csedept = await Department.findOne({ deptcode: "CSE" });
+    const demouser = await User.findOne({ username: "admindemo" });
 
     // Create a new Announcement instance
     const newAnnouncement = new Announcement({
-      department: ecedept._id,
+      department: csedept._id,
       messages: [
         {
-          teacher: eceteach,
+          teacher: demouser._id,
+          displayname: demouser.username,
           msg: "yolo",
         },
       ],

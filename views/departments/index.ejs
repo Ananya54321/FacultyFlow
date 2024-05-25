@@ -1,6 +1,10 @@
 <% layout("/layouts/boilerplate")-%>
 
 <body>
+  <form action="/departments/new" method="get">
+    <button type="submit">Add new department</button>
+  </form>
+
   <p>All Departments:</p>
   <% for(let department of departmentList){ %>
   <p><%= department.deptname %></p>
@@ -8,7 +12,8 @@
     <button>show details</button>
   </form>
   <form action="/departments/<%= department._id %>/announcements" method="get">
-    <button>show announcements</button>
+    <button type="submit">Show Announcements</button>
   </form>
+
   <% } %>
 </body>

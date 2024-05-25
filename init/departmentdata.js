@@ -29,48 +29,20 @@ const addDepartment = async () => {
       deptteachers.push(teacher._id);
     }
   }
+
   let departments = [
     {
       deptname: "Computer Science and Engineering",
       deptcode: "CSE",
       teachers: deptteachers,
-    },
-    {
-      deptname: "Electronics and Communication Engineering",
-      deptcode: "ECE",
-      teachers: emptyarr,
-    },
-    {
-      deptname: "Mechanical Engineering",
-      deptcode: "MECH",
-      teachers: emptyarr,
-    },
-    {
-      deptname: "Civil Engineering",
-      deptcode: "CIVIL",
-      teachers: emptyarr,
-    },
-    {
-      deptname: "Chemical Engineering",
-      deptcode: "CHEM",
-      teachers: emptyarr,
-    },
-    {
-      deptname: "Electrical and Electronics Engineering",
-      deptcode: "EEE",
-      teachers: emptyarr,
-    },
-    {
-      deptname: "Computer Science and Information Technology",
-      deptcode: "CSIT",
-      teachers: emptyarr,
+      hod: "6650e561ee36b6ca6b5875c3",
     },
   ];
-  departments = departments.map((obj) => ({
-    ...obj,
-    admin: "6650e561ee36b6ca6b5875c3",
-  }));
-  let result = await departments.insertMany();
+  // departments = departments.map((obj) => ({
+  //   ...obj,
+  //   admin: "6650e561ee36b6ca6b5875c3",
+  // }));
+  let result = await Department.insertMany(departments);
 
   console.log(result);
 };

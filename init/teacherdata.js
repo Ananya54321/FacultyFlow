@@ -28,7 +28,6 @@ const initDB = async () => {
   const teachersData = [
     {
       fid: "SMP",
-      password: "SMPfaculty",
       name: "Sampurnima",
       email: "sampurnimacvr@gmail.com",
       sub1: adsj._id,
@@ -38,9 +37,10 @@ const initDB = async () => {
       department: dept._id,
     },
   ];
-
   await Teacher.deleteMany({});
-  await Teacher.insertMany(teachersData);
+  const teacherList = await Teacher.insertMany(teachersData);
+  dept.teachers.push(teacherList[0]._id);
+  dept.save();
   console.log(teachersData);
 };
 

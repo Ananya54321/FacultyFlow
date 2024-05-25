@@ -8,11 +8,6 @@ const teacherSchema = new Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: "String",
-    required: true,
-    default: "cvr@123",
-  },
   name: {
     type: "String",
     required: true,

@@ -11,9 +11,13 @@ const announcementSchema = new Schema({
 
   messages: [
     {
-      teacher: {
+      user: {
         type: Schema.Types.ObjectId,
-        ref: "Teacher",
+        ref: "User",
+      },
+      displayname: {
+        type: String,
+        required: true,
       },
       msg: {
         type: String,

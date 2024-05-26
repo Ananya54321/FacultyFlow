@@ -16,13 +16,13 @@ router.get("/", isLoggedIn, async (req, res) => {
   res.render("teachers/index.ejs", { teacherList });
 });
 
-router.get("/new", isTeacherOrAdmin, async (req, res) => {
+router.get("/new", isLoggedIn, isTeacherOrAdmin, async (req, res) => {
   const subjects = await Subject.find({});
   const departments = await Department.find({});
   res.render("teachers/new.ejs", { subjects, departments });
 });
 
-router.post("/", isTeacherOrAdmin, async (req, res) => {
+router.post("/", isLoggedIn, isTeacherOrAdmin, async (req, res) => {
   try {
     const teacher = new Teacher(req.body.teacher);
     console.log(teacher);
@@ -86,7 +86,7 @@ router.get("/:id", isLoggedIn, async (req, res) => {
 });
 
 //edit particular teachers information:
-router.get("/:id/edit", isTeacherOrAdmin, async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isTeacherOrAdmin, async (req, res) => {
   let { id } = req.params;
   const teacher = await Teacher.findById(id).populate("sub1 sub2");
   if (!teacher.fid === req.user.username && req.user.role === "teacher") {
@@ -99,44 +99,56 @@ router.get("/:id/edit", isTeacherOrAdmin, async (req, res) => {
 });
 
 //update particular teachers personal information:
-router.put("/:id", isTeacherOrAdmin, async (req, res) => {
+router.put("/:id", isLoggedIn, isTeacherOrAdmin, async (req, res) => {
   let { id } = req.params;
   await Teacher.findByIdAndUpdate(id, { ...req.body.teacher });
   req.flash(
     "success",
     "Information has been updated to the database successfully!"
   );
-  res.redirect(`/teachers/${id}`);
+  if (req.user.role === "teacher") res.redirect("/profile");
+  else res.redirect(`/teachers/${id}`);
 });
 
 // edit particular teachers timetable:
-router.get("/:tid/timetables/:id/edit", isTeacherOrAdmin, async (req, res) => {
-  let { id } = req.params;
-  let { tid } = req.params;
-  const timetable = await Timetable.findById(id).populate(
-    "Monday Tuesday Wednesday Thursday Friday Saturday"
-  );
-  const teacher = await Teacher.findById(tid).populate("sub1 sub2");
-  if (!teacher.fid === req.user.username && req.user.role === "teacher") {
-    req.flash(
-      "error",
-      "You are not authorized to edit this teacher's timetable"
+router.get(
+  "/:tid/timetables/:id/edit",
+  isLoggedIn,
+  isTeacherOrAdmin,
+  async (req, res) => {
+    let { id } = req.params;
+    let { tid } = req.params;
+    const timetable = await Timetable.findById(id).populate(
+      "Monday Tuesday Wednesday Thursday Friday Saturday"
     );
-    return res.redirect(`/teachers/${id}`);
+    const teacher = await Teacher.findById(tid).populate("sub1 sub2");
+    if (!teacher.fid === req.user.username && req.user.role === "teacher") {
+      req.flash(
+        "error",
+        "You are not authorized to edit this teacher's timetable"
+      );
+      return res.redirect(`/teachers/${id}`);
+    }
+    let lunch = await Subject.findOne({ subcode: "BREAK" });
+    let free = await Subject.findOne({ subcode: "FREE" });
+    const subjects = [teacher.sub1, teacher.sub2, lunch, free];
+    res.render("timetables/edit.ejs", { timetable, subjects, teacher });
   }
-  let lunch = await Subject.findOne({ subcode: "BREAK" });
-  let free = await Subject.findOne({ subcode: "FREE" });
-  const subjects = [teacher.sub1, teacher.sub2, lunch, free];
-  res.render("timetables/edit.ejs", { timetable, subjects, teacher });
-});
+);
 
 // update timetable
-router.put("/:tid/timetables/:id", isTeacherOrAdmin, async (req, res) => {
-  let { id } = req.params;
-  let { tid } = req.params;
-  await Timetable.findByIdAndUpdate(id, { ...req.body.timetable });
-  req.flash("success", "Updated the timetable!");
-  res.redirect(`/teachers/${tid}`);
-});
+router.put(
+  "/:tid/timetables/:id",
+  isLoggedIn,
+  isTeacherOrAdmin,
+  async (req, res) => {
+    let { id } = req.params;
+    let { tid } = req.params;
+    await Timetable.findByIdAndUpdate(id, { ...req.body.timetable });
+    req.flash("success", "Updated the timetable!");
+    if (req.user.role === "teacher") res.redirect("/profile");
+    else res.redirect(`/teachers/${tid}`);
+  }
+);
 
 module.exports = router;

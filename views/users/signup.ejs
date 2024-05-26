@@ -5,11 +5,12 @@
   <div class="col-6 offset-3">
     <form action="/signup" method="POST" class="needs-validation" novalidate>
       <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
+        <label for="username" class="form-label">UID </label>
         <input
           type="text"
           class="form-control"
           name="username"
+          placeholder="Enter your Faculty ID/Student ID"
           id="username"
           required />
         <div class="valid-feedback">Looks good!</div>
@@ -20,11 +21,12 @@
           type="password"
           class="form-control"
           name="password"
+          placeholder="Enter your password"
           id="password"
           required />
       </div>
       <div class="mb-3">
-        <p>You are a:</p>
+        <p>Your role</p>
         <select name="role" id="" required class="form-control">
           <option value="" disabled selected>Select your role</option>
           <option value="student">Student</option>

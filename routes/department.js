@@ -14,12 +14,12 @@ router.get("/", isLoggedIn, async (req, res) => {
 });
 
 // add new department
-router.get("/new", isAdmin, (req, res) => {
+router.get("/new", isLoggedIn, isAdmin, (req, res) => {
   res.render("departments/new.ejs");
 });
 
 // create new department
-router.post("/", isAdmin, async (req, res) => {
+router.post("/", isLoggedIn, isAdmin, async (req, res) => {
   try {
     const { department } = req.body;
 
@@ -56,54 +56,64 @@ router.get("/:id", isLoggedIn, async (req, res) => {
 });
 
 // announcements section
-router.get("/:deptid/announcements", isTeacherOrAdmin, async (req, res) => {
-  try {
-    const { deptid } = req.params;
-    const dept = await Department.findById(deptid);
-    if (!dept) {
-      return res.status(404).send("Department not found");
+router.get(
+  "/:deptid/announcements",
+  isLoggedIn,
+  isTeacherOrAdmin,
+  async (req, res) => {
+    try {
+      const { deptid } = req.params;
+      const dept = await Department.findById(deptid);
+      if (!dept) {
+        return res.status(404).send("Department not found");
+      }
+      const announcements = await Announcement.findOne({
+        department: dept._id,
+      }).populate("department messages.user");
+      res.render("main/announcements.ejs", { dept, announcements });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error fetching announcements");
     }
-    const announcements = await Announcement.findOne({
-      department: dept._id,
-    }).populate("department messages.user");
-    res.render("main/announcements.ejs", { dept, announcements });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error fetching announcements");
   }
-});
+);
 
 // post an announcement
-router.post("/:deptid/announcements", isTeacherOrAdmin, async (req, res) => {
-  const { deptid } = req.params;
-  const { msg } = req.body;
-  const dept = await Department.findById(deptid);
-  let announcements = await Announcement.findOne({
-    department: dept._id,
-  });
-  if (!announcements) {
-    // Create a new announcement if none exists for the department
-    announcements = new Announcement({
+router.post(
+  "/:deptid/announcements",
+  isLoggedIn,
+  isTeacherOrAdmin,
+  async (req, res) => {
+    const { deptid } = req.params;
+    const { msg } = req.body;
+    const dept = await Department.findById(deptid);
+    let announcements = await Announcement.findOne({
       department: dept._id,
-      messages: [],
     });
-  }
+    if (!announcements) {
+      // Create a new announcement if none exists for the department
+      announcements = new Announcement({
+        department: dept._id,
+        messages: [],
+      });
+    }
 
-  let resname = "";
-  if (req.user.role === "admin") {
-    resname = req.user.username;
-  } else if (req.user.role === "teacher") {
-    const teacher = await Teacher.findOne({ fid: req.user.username });
-    resname = teacher.name;
+    let resname = "";
+    if (req.user.role === "admin") {
+      resname = req.user.username;
+    } else if (req.user.role === "teacher") {
+      const teacher = await Teacher.findOne({ fid: req.user.username });
+      resname = teacher.name;
+    }
+    const newAnnouncement = {
+      user: req.user._id,
+      displayname: resname,
+      msg: msg,
+    };
+    announcements.messages.push(newAnnouncement);
+    await announcements.save();
+    res.redirect(`/departments/${deptid}/announcements`);
   }
-  const newAnnouncement = {
-    user: req.user._id,
-    displayname: resname,
-    msg: msg,
-  };
-  announcements.messages.push(newAnnouncement);
-  await announcements.save();
-  res.redirect(`/departments/${deptid}/announcements`);
-});
+);
 
 module.exports = router;

@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const Teacher = require("../models/teacher");
+const Department = require("../models/department");
+const Timetable = require("../models/timetable");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middleware");
+const { saveRedirectUrl, isTeacher, isLoggedIn } = require("../middleware");
 
 // user sign up
 router.get("/signup", (req, res) => {
@@ -64,6 +67,18 @@ router.get("/logout", (req, res, next) => {
   });
   req.flash("success", "Logging out...! Goodbye!");
   res.redirect("/");
+});
+
+// user profile
+router.get("/profile", isLoggedIn, isTeacher, async (req, res) => {
+  const uid = req.user._id;
+  const teacher = await Teacher.findOne({ fid: req.user.username });
+  const department = await Department.findById(teacher.department);
+  let resid = teacher.timetable._id;
+  const timetable = await Timetable.findById(resid).populate(
+    "Monday Tuesday Wednesday Thursday Friday Saturday"
+  );
+  res.render("users/profile.ejs", { teacher, department, timetable });
 });
 
 // admin auth

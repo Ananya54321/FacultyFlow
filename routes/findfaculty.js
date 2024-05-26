@@ -52,41 +52,44 @@ router.post("/", isLoggedIn, async (req, res, next) => {
     ];
 
     const dayOfWeek = dateObject.getDay();
-    const reqday = days[dayOfWeek];
-    const free = await Subject.findOne({ subcode: "FREE" });
-    const lunch = await Subject.findOne({ subcode: "BREAK" });
+    if (!dayOfWeek === 0) {
+      const reqday = days[dayOfWeek];
 
-    const timetableList = await Timetable.find({});
-    const freeTeacherList = [];
+      const free = await Subject.findOne({ subcode: "FREE" });
+      const lunch = await Subject.findOne({ subcode: "BREAK" });
 
-    for (let timetable of timetableList) {
-      let actperiod = timetable[reqday][reqperiod];
-      if (String(actperiod) === String(free._id)) {
-        let freeteacher = await Teacher.findOne({ timetable: timetable._id });
-        if (freeteacher) {
-          freeteacher.theory = 0;
-          freeteacher.lab = 0;
-          for (let i = 0; i <= 6; i++) {
-            let sub = await Subject.findOne({ _id: timetable[reqday][i] });
-            if (!sub._id.equals(free._id) && !sub._id.equals(lunch._id)) {
-              console.log(sub);
-              if (sub.subtype === "T") {
-                freeteacher.theory += 1;
-              } else if (sub.subtype === "L") {
-                freeteacher.lab += 1;
+      const timetableList = await Timetable.find({});
+      const freeTeacherList = [];
+
+      for (let timetable of timetableList) {
+        let actperiod = timetable[reqday][reqperiod];
+        if (String(actperiod) === String(free._id)) {
+          let freeteacher = await Teacher.findOne({ timetable: timetable._id });
+          if (freeteacher) {
+            freeteacher.theory = 0;
+            freeteacher.lab = 0;
+            for (let i = 0; i <= 6; i++) {
+              let sub = await Subject.findOne({ _id: timetable[reqday][i] });
+              if (!sub._id.equals(free._id) && !sub._id.equals(lunch._id)) {
+                console.log(sub);
+                if (sub.subtype === "T") {
+                  freeteacher.theory += 1;
+                } else if (sub.subtype === "L") {
+                  freeteacher.lab += 1;
+                }
               }
             }
+            freeTeacherList.push(freeteacher);
+          } else {
+            continue;
           }
-          freeTeacherList.push(freeteacher);
         } else {
-          continue;
+          console.log("Teacher is not free");
         }
-      } else {
-        console.log("Teacher is not free");
       }
+    } else {
+      res.render("main/findfaculty", { freeTeacherList });
     }
-
-    res.render("main/findfaculty", { freeTeacherList });
   } catch (err) {
     console.error(error);
     req.flash("error", error.message);

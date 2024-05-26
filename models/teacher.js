@@ -33,7 +33,8 @@ const teacherSchema = new Schema({
     type: "String",
   },
   department: {
-    type: "String",
+    type: Schema.Types.ObjectId,
+    ref: "Department",
     required: true,
   },
   // designation: {

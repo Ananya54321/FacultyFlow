@@ -2,7 +2,7 @@
 
 <body>
   <!-- to add a message/ announcements tab -->
-  <h1>Announcements for <%= dept.name %></h1>
+  <h1><%= dept.deptcode %> Announcements</h1>
 
   <% if (announcements) {%>
   <div>
@@ -15,12 +15,10 @@
       <% } %>
     </ul>
   </div>
+  <% } %>
   <hr />
   <form action="/departments/<%= dept._id %>/announcements" method="post">
     <textarea name="msg" id="msg"></textarea>
     <button>submit</button>
   </form>
-  <% } else { %>
-  <p>No announcements available.</p>
-  <% } %>
 </body>

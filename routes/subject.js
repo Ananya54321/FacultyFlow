@@ -12,19 +12,19 @@ router.get("/", isLoggedIn, async (req, res) => {
 });
 
 // get info for editing route
-router.get("/:id/edit", isAdmin, isLoggedIn, async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isAdmin, async (req, res) => {
   let { id } = req.params;
   const subject = await Subject.findById(id);
   res.render("subjects/edit.ejs", { subject });
 });
 
 // add new route
-router.get("/new", isAdmin, (req, res) => {
+router.get("/new", isLoggedIn, isAdmin, (req, res) => {
   res.render("subjects/new.ejs");
 });
 
 // create route
-router.post("/", isAdmin, async (req, res) => {
+router.post("/", isLoggedIn, isAdmin, async (req, res) => {
   const { subject } = req.body;
   const newSubject = new Subject(subject);
   await newSubject.save();
@@ -34,7 +34,7 @@ router.post("/", isAdmin, async (req, res) => {
 });
 
 // update the subject route
-router.put("/:id", isAdmin, async (req, res) => {
+router.put("/:id", isLoggedIn, isAdmin, async (req, res) => {
   let { id } = req.params;
   await Subject.findByIdAndUpdate(id, { ...req.body.subject });
   req.flash("success", "Subject info updated!");

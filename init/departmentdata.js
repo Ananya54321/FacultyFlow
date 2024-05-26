@@ -35,7 +35,6 @@ const addDepartment = async () => {
       deptname: "Computer Science and Engineering",
       deptcode: "CSE",
       teachers: deptteachers,
-      hod: "6650e561ee36b6ca6b5875c3",
     },
   ];
   // departments = departments.map((obj) => ({

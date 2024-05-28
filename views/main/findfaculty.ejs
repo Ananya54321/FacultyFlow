@@ -13,6 +13,13 @@
       <option value="<%= i %>"><%= i %></option>
       <% } %>
     </select>
+    <br />
+    <select name="dept" id="">
+      <option value="all">All departments</option>
+      <% for(let dept of departments){ %>
+      <option value="<%= dept._id %>"><%= dept.deptname %></option>
+      <% } %>
+    </select>
     <button type="submit">choose</button>
   </form>
 

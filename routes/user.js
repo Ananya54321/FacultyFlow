@@ -97,4 +97,10 @@ router.post("/cvradminauth", async (req, res) => {
   }
 });
 
+router.get("/deptannouncements", async (req, res) => {
+  const teacher = await Teacher.findOne({ fid: req.user.username });
+  const deptid = teacher.department;
+  res.redirect(`/departments/${deptid}/announcements`);
+});
+
 module.exports = router;

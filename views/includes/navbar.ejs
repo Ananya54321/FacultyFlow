@@ -20,14 +20,19 @@
         <a class="nav-link" aria-current="page" href="/findfaculty"
           >findfaculty</a
         >
-        <a class="nav-link" aria-current="page" href="/teachers">teachers</a>
+        <% if (currUserStatus) { %> <% if (currUserStatus.role === 'admin') { %>
         <a class="nav-link" aria-current="page" href="/subjects">subjects</a>
+        <% } %> <% if (currUserStatus.role === 'teacher') { %>
+        <a class="nav-link" aria-current="page" href="/deptannouncements"
+          >announcements</a
+        >
+        <% } %> <% } %>
       </div>
       <div class="ms-auto navbar-nav">
-        <% if(!currUserStatus){ %>
+        <% if (!currUserStatus) { %>
         <a class="nav-link" href="/login">Login</a>
         <a class="nav-link" href="/signup">Sign Up</a>
-        <% } else {%> <% if(currUserStatus.role=='teacher'){ %>
+        <% } else { %> <% if (currUserStatus.role === 'teacher') { %>
         <a class="nav-link" aria-current="page" href="/profile">Profile</a>
         <% } %>
         <a class="nav-link" href="/logout">Logout</a>

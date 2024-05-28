@@ -24,13 +24,13 @@ router.post("/id", isLoggedIn, async (req, res) => {
     } else {
       // Handle case where teacher with the given ID is not found
       console.error(error);
-      req.flash("error", error.message);
+      req.flash("error", "Teacher not found.");
       res.redirect("/findfaculty");
     }
   } catch (error) {
     // Handle any errors that occur during the database query
     console.error(error);
-    req.flash("error", error.message);
+    req.flash("error", "Teacher not found.");
     res.redirect("/findfaculty");
   }
 });
@@ -96,8 +96,8 @@ router.post("/", isLoggedIn, async (req, res, next) => {
 
     res.render("main/findfaculty", { freeTeacherList, departments });
   } catch (error) {
-    console.error(error);
-    req.flash("error", error.message);
+    console.log(error);
+    req.flash("error", "Invalid inpute, please try again");
     res.redirect("/findfaculty");
   }
 });

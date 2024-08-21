@@ -1,16 +1,81 @@
 <% layout("/layouts/boilerplate")-%>
 
-<body>
-  <form action="/subjects/<%= subject._id %>?_method=PUT" method="POST">
-    <label for="">Subject Name</label>
-    <input type="text" name="subject[subname]" value="<%= subject.subname %>" />
-    <br />
-    <label for="">Subject Code</label>
-    <input type="text" name="subject[subcode]" value="<%= subject.subcode %>" />
-    <br />
-    <label for="">Subject Type</label>
-    <input type="text" name="subject[subtype]" value="<%= subject.subtype %>" />
-    <button>update & save</button>
-  </form>
-</body>
-<!-- this page is to edit the information of a particular subject -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm" style="border: none; border-radius: 15px; overflow: hidden;">
+        <div class="card-header bg-gradient d-flex align-items-center" style="background-color: #1ecd8d; padding: 20px;">
+          <i class="fas fa-edit me-3" style="color: #ffffff; font-size: 24px;"></i>
+          <h2 class="mb-0" style="color: #ffffff; font-weight: 600;">Edit Subject</h2>
+        </div>
+        <div class="card-body" style="padding: 30px;">
+          <form action="/subjects/<%= subject._id %>?_method=PUT" method="POST">
+            <div class="mb-4">
+              <label for="subname" class="form-label" style="color: #545454; font-weight: 500;">Subject Name</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="subname"
+                name="subject[subname]"
+                value="<%= subject.subname %>"
+                required
+                style="border: 1px solid #ced4da; border-radius: 10px; padding: 12px;"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="subcode" class="form-label" style="color: #545454; font-weight: 500;">Subject Code</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="subcode"
+                name="subject[subcode]"
+                value="<%= subject.subcode %>"
+                required
+                style="border: 1px solid #ced4da; border-radius: 10px; padding: 12px;"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="subtype" class="form-label" style="color: #545454; font-weight: 500;">Subject Type</label>
+              <select
+                class="form-select form-select-lg"
+                id="subtype"
+                name="subject[subtype]"
+                required
+                style="border: 1px solid #ced4da; border-radius: 10px; padding: 12px;"
+              >
+                <option value="Theory" <%= subject.subtype === 'Theory' ? 'selected' : '' %>>Theory</option>
+                <option value="Practical" <%= subject.subtype === 'Practical' ? 'selected' : '' %>>Practical</option>
+                <option value="Both" <%= subject.subtype === 'Both' ? 'selected' : '' %>>Both</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2">
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                style="background-color: #1ecd8d; border-color: #1ecd8d; font-weight: 500; border-radius: 10px; padding: 12px;"
+              >
+                <i class="fas fa-save me-2"></i>Update & Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient {
+    background-image: linear-gradient(to right, #1ecd8d, #15a06e);
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #1ecd8d;
+    box-shadow: 0 0 0 0.2rem rgba(30, 205, 141, 0.25);
+  }
+  .btn-primary:hover {
+    background-color: #15a06e !important;
+    border-color: #15a06e !important;
+  }
+</style>
+
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>

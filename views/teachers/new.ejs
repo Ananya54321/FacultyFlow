@@ -1,59 +1,118 @@
 <% layout("/layouts/boilerplate")-%>
 
-  </head>
-  <body>
-    <form action="/teachers" method="POST">
-      <label for="">Faculty Name</label>
-      <input
-        type="text"
-        name="teacher[name]"
-        id=""
-        placeholder="enter teacher's name" />
-      <br /><br />
-      <% if(!currUserStatus.role=='teacher'){ %>
-      <label>Faculty ID:</label>
-      <input type="text" name="teacher[fid]" placeholder="enter fid" id="" />
-      <br /><br />
-      <% }%>
-      <label>Department:</label>
-      <select name="teacher[department]" id="">
-        <% for(let department of departments){ %>
-        <option value="<%= department._id %>">
-          <%= department.deptcode %>
-        </option>
+<div class="container mt-5">
+  <h1 class="mb-4" style="color: #182527">Add New Teacher</h1>
+  <div class="card" style="border-color: #1ecd8d">
+    <div class="card-body">
+      <form action="/teachers" method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label" style="color: #545454"
+            >Faculty Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="teacher[name]"
+            placeholder="Enter teacher's name"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
+        <% if(!currUserStatus.role=='teacher'){ %>
+        <div class="mb-3">
+          <label for="fid" class="form-label" style="color: #545454"
+            >Faculty ID</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="fid"
+            name="teacher[fid]"
+            placeholder="Enter FID"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
         <% } %>
-      </select>
-      <br /><br />
-      <label>Email:</label>
-      <input
-        type="text"
-        name="teacher[email]"
-        placeholder="enter email"
-        id="" />
-      <br /><br />
-      <label>Subject 1:</label>
-      <select name="teacher[sub1]" id="">
-        <% for (let subject of subjects){ %>
-        <option value="<%= subject._id %>"><%= subject.subcode %></option>
-        <% } %>
-      </select>
-      <br /><br />
-      <label>Subject 2:</label>
-      <select name="teacher[sub2]" id="">
-        <% for (let subject of subjects){ %>
-        <option value="<%= subject._id %>"><%= subject.subcode %></option>
-        <% } %>
-      </select>
-
-      <br /><br />
-      <label>Qualifications:</label>
-      <input
-        type="text"
-        name="teacher[qualifications]"
-        placeholder="enter qualifications"
-        id="" />
-      <br /><br />
-
-      <button>create</button>
-    </form>
-  </body>
+        <div class="mb-3">
+          <label for="department" class="form-label" style="color: #545454"
+            >Department</label
+          >
+          <select
+            class="form-select"
+            id="department"
+            name="teacher[department]"
+            required
+            style="border-color: #1ecd8d">
+            <% for(let department of departments){ %>
+            <option value="<%= department._id %>">
+              <%= department.deptcode %>
+            </option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label" style="color: #545454"
+            >Email</label
+          >
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="teacher[email]"
+            placeholder="Enter email"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
+        <div class="mb-3">
+          <label for="sub1" class="form-label" style="color: #545454"
+            >Subject 1</label
+          >
+          <select
+            class="form-select"
+            id="sub1"
+            name="teacher[sub1]"
+            required
+            style="border-color: #1ecd8d">
+            <% for (let subject of subjects){ %>
+            <option value="<%= subject._id %>"><%= subject.subcode %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="sub2" class="form-label" style="color: #545454"
+            >Subject 2</label
+          >
+          <select
+            class="form-select"
+            id="sub2"
+            name="teacher[sub2]"
+            required
+            style="border-color: #1ecd8d">
+            <% for (let subject of subjects){ %>
+            <option value="<%= subject._id %>"><%= subject.subcode %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="qualifications" class="form-label" style="color: #545454"
+            >Qualifications</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="qualifications"
+            name="teacher[qualifications]"
+            placeholder="Enter qualifications"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="background-color: #1ecd8d; border-color: #1ecd8d">
+          Create
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,61 +1,55 @@
 <% layout("/layouts/boilerplate")-%>
-<body>
-  <form action="/teachers/<%= teacher._id %>/?_method=PUT" method="POST">
-    <label for="">Faculty Name</label>
-    <input type="text" name="teacher[name]" id="" value="<%= teacher.name %>" />
-    <br /><br />
-    <label>Faculty ID:</label>
-    <input type="text" name="teacher[fid]" value="<%= teacher.fid %>" id="" />
-    <br /><br />
-    <label>Department:</label>
-    <select name="teacher[department]" id="">
-      <% let olddept = teacher.department.deptcode; %> <% for (let dept of
-      departments) { %> <% if (dept.deptcode===olddept) { %>
-      <option value="<%= dept._id %>" selected><%= dept.deptcode %></option>
-      <% } else { %>
-      <option value="<%= dept._id %>"><%= dept.deptcode %></option>
-      <% } %> <% } %>
-    </select>
 
-    <br /><br />
-    <label>Email:</label>
-    <input
-      type="text"
-      name="teacher[email]"
-      value="<%= teacher.email %>"
-      id="" />
-    <br /><br />
-    <label>Subject 1:</label>
-    <select name="teacher[sub1]" id="">
-      <% let oldsub=teacher.sub1.subcode; %> <% for (let subject of subjects) {
-      %> <% if (subject.subcode===oldsub) { %>
-      <option value="<%= subject._id %>" selected>
-        <%= subject.subcode %>
-      </option>
-      <% } else { %>
-      <option value="<%= subject._id %>"><%= subject.subcode %></option>
-      <% } %> <% } %>
-    </select>
-    <br /><br />
-    <label>Subject 2:</label>
-    <select name="teacher[sub2]" id="">
-      <% oldsub=teacher.sub2.subcode; %> <% for (let subject of subjects) { %>
-      <% if (subject.subcode===oldsub) { %>
-      <option value="<%= subject._id %>" selected>
-        <%= subject.subcode %>
-      </option>
-      <% } else { %>
-      <option value="<%= subject._id %>"><%= subject.subcode %></option>
-      <% } %> <% } %>
-    </select>
-    <br /><br />
-    <label>Qualifications:</label>
-    <input
-      type="text"
-      name="teacher[qualifications]"
-      value="<%= teacher.qualifications %>"
-      id="" />
-    <br /><br />
-    <button>update & save</button>
-  </form>
-</body>
+<div class="container mt-5">
+  <h1 class="mb-4" style="color: #182527;">Edit Teacher Information</h1>
+  <div class="card" style="border-color: #1ECD8D;">
+    <div class="card-body">
+      <form action="/teachers/<%= teacher._id %>/?_method=PUT" method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label" style="color: #545454;">Faculty Name</label>
+          <input type="text" class="form-control" id="name" name="teacher[name]" value="<%= teacher.name %>" required style="border-color: #1ECD8D;">
+        </div>
+        <div class="mb-3">
+          <label for="fid" class="form-label" style="color: #545454;">Faculty ID</label>
+          <input type="text" class="form-control" id="fid" name="teacher[fid]" value="<%= teacher.fid %>" required style="border-color: #1ECD8D;">
+        </div>
+        <div class="mb-3">
+          <label for="department" class="form-label" style="color: #545454;">Department</label>
+          <select class="form-select" id="department" name="teacher[department]" required style="border-color: #1ECD8D;">
+            <% let olddept = teacher.department.deptcode; %>
+            <% for (let dept of departments) { %>
+              <option value="<%= dept._id %>" <%= dept.deptcode === olddept ? 'selected' : '' %>><%= dept.deptcode %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label" style="color: #545454;">Email</label>
+          <input type="email" class="form-control" id="email" name="teacher[email]" value="<%= teacher.email %>" required style="border-color: #1ECD8D;">
+        </div>
+        <div class="mb-3">
+          <label for="sub1" class="form-label" style="color: #545454;">Subject 1</label>
+          <select class="form-select" id="sub1" name="teacher[sub1]" required style="border-color: #1ECD8D;">
+            <% let oldsub = teacher.sub1.subcode; %>
+            <% for (let subject of subjects) { %>
+              <option value="<%= subject._id %>" <%= subject.subcode === oldsub ? 'selected' : '' %>><%= subject.subcode %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="sub2" class="form-label" style="color: #545454;">Subject 2</label>
+          <select class="form-select" id="sub2" name="teacher[sub2]" required style="border-color: #1ECD8D;">
+            <% oldsub = teacher.sub2.subcode; %>
+            <% for (let subject of subjects) { %>
+              <option value="<%= subject._id %>" <%= subject.subcode === oldsub ? 'selected' : '' %>><%= subject.subcode %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="qualifications" class="form-label" style="color: #545454;">Qualifications</label>
+          <input type="text" class="form-control" id="qualifications" name="teacher[qualifications]" value="<%= teacher.qualifications %>" required style="border-color: #1ECD8D;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="background-color: #1ECD8D; border-color: #1ECD8D;">Update & Save</button>
+      </form>
+    </div>
+  </div>
+</div>

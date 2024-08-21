@@ -1,17 +1,37 @@
 <% layout("/layouts/boilerplate")-%>
 
-<body>
-  <h1>Teachers are:</h1>
+<div class="container mt-5">
+  <h1 class="mb-4" style="color: #182527">Faculty List</h1>
 
-  <% for( teacher of teacherList){ %>
-  <a href="/teachers/<%= teacher._id %>"
-    >Teacher's Name: <%= teacher.name %>
-  </a>
-  <p>Faculty ID: <%= teacher.fid %></p>
-  <hr />
-  <% } %> <%if(currUserStatus == 'admin'){ %>
-  <form action="/teachers/new" method="get">
-    <button>add new teacher</button>
-  </form>
+  <div class="row">
+    <% for(let teacher of teacherList){ %>
+    <div class="col-md-4 mb-4">
+      <div class="card" style="border-color: #1ecd8d">
+        <div class="card-body">
+          <h5 class="card-title" style="color: #182527">
+            <a
+              href="/teachers/<%= teacher._id %>"
+              style="color: #1ecd8d; text-decoration: none"
+              ><%= teacher.name %></a
+            >
+          </h5>
+          <p class="card-text" style="color: #545454">
+            Faculty ID: <%= teacher.fid %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+
+  <% if(currUserStatus == 'admin'){ %>
+  <div class="mt-4">
+    <a
+      href="/teachers/new"
+      class="btn btn-primary"
+      style="background-color: #1ecd8d; border-color: #1ecd8d"
+      >Add New Teacher</a
+    >
+  </div>
   <% } %>
-</body>
+</div>

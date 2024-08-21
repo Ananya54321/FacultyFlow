@@ -1,99 +1,85 @@
 <% layout("/layouts/boilerplate")-%>
 
-<body>
-  <div>
-    <p>Teacher's Name: <%= teacher.name %></p>
-    <p>Faculty ID: <%= teacher.fid %></p>
-    <p>Department: <%= department.deptname %></p>
-    <p>Email: <%= teacher.email %></p>
-    <p>Subject 1: <%= teacher.sub1.subcode %></p>
-    <p>Subject 2: <%= teacher.sub2.subcode %></p>
-    <p>Qualifications: <%= teacher.qualifications%></p>
-    <p>timetable:</p>
+<div class="container mt-5">
+  <h1 class="mb-4" style="color: #182527">Teacher Information</h1>
+  <div class="card mb-4" style="border-color: #1ecd8d">
+    <div class="card-body">
+      <h5 class="card-title" style="color: #182527"><%= teacher.name %></h5>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="card-text" style="color: #545454">
+            <strong>Faculty ID:</strong> <%= teacher.fid %>
+          </p>
+          <p class="card-text" style="color: #545454">
+            <strong>Department:</strong> <%= department.deptname %>
+          </p>
+          <p class="card-text" style="color: #545454">
+            <strong>Email:</strong> <%= teacher.email %>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="card-text" style="color: #545454">
+            <strong>Subject 1:</strong> <%= teacher.sub1.subcode %>
+          </p>
+          <p class="card-text" style="color: #545454">
+            <strong>Subject 2:</strong> <%= teacher.sub2.subcode %>
+          </p>
+          <p class="card-text" style="color: #545454">
+            <strong>Qualifications:</strong> <%= teacher.qualifications%>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <% if(user.role == 'admin'){ %>
-    <form
-      action="/teachers/<%= teacher._id %>/timetables/<%= timetable._id %>/edit"
-      method="get">
-      <button>edit timetable</button>
-    </form>
+  <h2 class="mb-3" style="color: #182527">Timetable</h2>
 
-    <form action="/teachers/<%= teacher._id %>/edit" method="get">
-      <button>edit faculty information</button>
-    </form>
+  <% if(user.role == 'admin'){ %>
+  <div class="mb-3">
+    <a
+      href="/teachers/<%= teacher._id %>/timetables/<%= timetable._id %>/edit"
+      class="btn btn-secondary me-2"
+      style="background-color: #545454; border-color: #545454"
+      >Edit Timetable</a
+    >
+    <a
+      href="/teachers/<%= teacher._id %>/edit"
+      class="btn btn-primary"
+      style="background-color: #1ecd8d; border-color: #1ecd8d"
+      >Edit Faculty Information</a
+    >
+  </div>
+  <% } %>
 
-    <% } %>
-    <table>
-      <tr>
-        <th>Timetable</th>
-        <th>1</th>
-        <th>2</th>
-        <th>3</th>
-        <th>4</th>
-        <th>5</th>
-        <th>6</th>
-        <th>7</th>
-      </tr>
-      <tr>
-        <td>
-          <h3>Monday</h3>
-        </td>
-        <% for(let period of timetable.Monday){ %>
-        <td>
-          <p><%= period.subcode %></p>
-        </td>
-        <% } %>
-      </tr>
-      <tr>
-        <td>
-          <h3>Tuesday</h3>
-        </td>
-        <% for(let period of timetable.Tuesday){ %>
-        <td>
-          <p><%= period.subcode %></p>
-        </td>
-        <% } %>
-      </tr>
-      <tr>
-        <td>
-          <h3>Wednesday</h3>
-        </td>
-        <% for(let period of timetable.Wednesday){ %>
-        <td>
-          <p><%= period.subcode %></p>
-        </td>
-        <% } %>
-      </tr>
-      <tr>
-        <td>
-          <h3>Thursday</h3>
-        </td>
-        <% for(let period of timetable.Thursday){ %>
-        <td>
-          <p><%= period.subcode %></p>
-        </td>
-        <% } %>
-      </tr>
-      <tr>
-        <td>
-          <h3>Friday</h3>
-        </td>
-        <% for(let period of timetable.Friday){ %>
-        <td>
-          <p><%= period.subcode %></p>
-        </td>
-        <% } %>
-      </tr>
-      <tr>
-        <td>
-          <h3>Saturday</h3>
-        </td>
-        <% for(let period of timetable.Saturday){ %>
-        <td>
-          <p><%= period.subcode %></p>
-        </td>
-        <% } %>
-      </tr>
+  <div class="table-responsive">
+    <table
+      class="table table-bordered timetable-custom"
+      style="border-color: #1ecd8d">
+      <thead>
+        <tr style="background-color: #182527; color: #ffffff">
+          <th>Day</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+        'Saturday']; %> <% days.forEach(day => { %>
+        <tr>
+          <td style="background-color: #1ecd8d; color: #182527">
+            <strong><%= day %></strong>
+          </td>
+          <% for(let period of timetable[day]){ %>
+          <td style="color: #545454"><%= period.subcode || '-' %></td>
+          <% } %>
+        </tr>
+        <% }); %>
+      </tbody>
     </table>
   </div>
-</body>
+</div>

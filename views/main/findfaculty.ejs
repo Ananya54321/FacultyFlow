@@ -1,43 +1,142 @@
 <% layout("/layouts/boilerplate")-%>
-<body>
-  <form action="/findfaculty/id" method="post">
-    <input type="text" name="searchfid" placeholder="Enter faculty ID" />
-    <button type="submit">Search</button>
-  </form>
-  <h1>find idle faculty</h1>
-  <form action="/findfaculty" method="post">
-    <p>pick the date:</p>
-    <input type="datetime-local" name="dateinput" id="" />
-    <select name="period" id="">
-      <% for(let i = 1; i <= 7; i++){ %>
-      <option value="<%= i %>"><%= i %></option>
-      <% } %>
-    </select>
-    <br />
-    <select name="dept" id="">
-      <option value="all">All departments</option>
-      <% for(let dept of departments){ %>
-      <option value="<%= dept._id %>"><%= dept.deptname %></option>
-      <% } %>
-    </select>
-    <button type="submit">choose</button>
-  </form>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm" style="border-color: #1ecd8d">
+        <div class="card-body">
+          <h5 class="card-title mb-3" style="color: #182527">
+            Search by Faculty ID
+          </h5>
+          <form action="/findfaculty/id" method="post">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                name="searchfid"
+                placeholder="Enter faculty ID"
+                style="border-color: #1ecd8d" />
+              <button
+                class="btn btn-primary"
+                type="submit"
+                style="background-color: #1ecd8d; border-color: #1ecd8d">
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
-  <p>Free teachers are:</p>
-  <% if(freeTeacherList && freeTeacherList.length > 0) { %> <%
-  freeTeacherList.forEach(teacher => { %>
-  <div>
-    <a href="/teachers/<%= teacher._id %>">
-      <p>Name: <%= teacher.name %></p>
-      <p>Faculty ID: <%= teacher.fid %></p>
-      <p>Theory classes: <%= teacher.theory %></p>
-      <p>Practical classes: <%= teacher.lab %></p>
-      <p>Total workload: <%= teacher.theory + teacher.lab %></p>
-      <hr />
-    </a>
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm" style="border-color: #1ecd8d">
+        <div class="card-body">
+          <h5 class="card-title mb-3" style="color: #182527">
+            Find Idle Faculty
+          </h5>
+          <form action="/findfaculty" method="post">
+            <div class="mb-3">
+              <label for="dateinput" class="form-label" style="color: #545454"
+                >Pick the date:</label
+              >
+              <input
+                type="datetime-local"
+                class="form-control"
+                name="dateinput"
+                id="dateinput"
+                style="border-color: #1ecd8d" />
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="period" class="form-label" style="color: #545454"
+                  >Period:</label
+                >
+                <select
+                  name="period"
+                  id="period"
+                  class="form-select"
+                  style="border-color: #1ecd8d">
+                  <% for(let i = 1; i <= 7; i++){ %>
+                  <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="col">
+                <label for="dept" class="form-label" style="color: #545454"
+                  >Department:</label
+                >
+                <select
+                  name="dept"
+                  id="dept"
+                  class="form-select"
+                  style="border-color: #1ecd8d">
+                  <option value="all">All departments</option>
+                  <% for(let dept of departments){ %>
+                  <option value="<%= dept._id %>"><%= dept.deptname %></option>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="background-color: #1ecd8d; border-color: #1ecd8d">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <% }) %> <% } else { %>
-  <p>No free teachers</p>
-  <% } %>
-</body>
+  <div class="mt-5">
+    <h2 class="mb-4" style="color: #182527">Free Teachers</h2>
+    <% if(freeTeacherList && freeTeacherList.length > 0) { %>
+    <div class="table-responsive">
+      <table class="table table-hover" style="border-color: #1ecd8d">
+        <thead style="background-color: #1ecd8d; color: #ffffff">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Faculty ID</th>
+            <th scope="col">Theory Classes</th>
+            <th scope="col">Practical Classes</th>
+            <th scope="col">Total Workload</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% freeTeacherList.forEach(teacher => { %>
+          <tr>
+            <td><%= teacher.name %></td>
+            <td><%= teacher.fid %></td>
+            <td><%= teacher.theory %></td>
+            <td><%= teacher.lab %></td>
+            <td><%= teacher.theory + teacher.lab %></td>
+            <td>
+              <a
+                href="/teachers/<%= teacher._id %>"
+                class="btn btn-sm"
+                style="background-color: #1ecd8d; color: #ffffff"
+                >View Profile</a
+              >
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } else { %>
+    <div
+      class="alert alert-info"
+      role="alert"
+      style="background-color: #1ecd8d; color: #182527; border-color: #1ecd8d">
+      No free teachers found.
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<style>
+  .table-hover tbody tr:hover {
+    background-color: rgba(30, 205, 141, 0.1);
+  }
+</style>

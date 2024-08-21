@@ -1,16 +1,53 @@
 <% layout("/layouts/boilerplate")-%>
 
-<body>
-  <h1>Add a Subject:</h1>
-  <form action="/subjects" method="POST">
-    <label for="">Subject Name</label>
-    <input type="text" name="subject[subname]" />
-    <br />
-    <label for="">Subject Code</label>
-    <input type="text" name="subject[subcode]" />
-    <br />
-    <label for="">Subject Type</label>
-    <input type="text" name="subject[subtype]" />
-    <button>Add Subject</button>
-  </form>
-</body>
+<div class="container mt-5">
+  <h1 class="mb-4" style="color: #182527">Add a New Subject</h1>
+  <div class="card" style="border-color: #1ecd8d">
+    <div class="card-body">
+      <form action="/subjects" method="POST">
+        <div class="mb-3">
+          <label for="subname" class="form-label" style="color: #545454"
+            >Subject Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="subname"
+            name="subject[subname]"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
+        <div class="mb-3">
+          <label for="subcode" class="form-label" style="color: #545454"
+            >Subject Code</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="subcode"
+            name="subject[subcode]"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
+        <div class="mb-3">
+          <label for="subtype" class="form-label" style="color: #545454"
+            >Subject Type</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="subtype"
+            name="subject[subtype]"
+            required
+            style="border-color: #1ecd8d" />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="background-color: #1ecd8d; border-color: #1ecd8d">
+          Add Subject
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

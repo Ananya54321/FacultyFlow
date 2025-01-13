@@ -5,8 +5,7 @@ const Announcement = require("../models/announcement.js");
 const User = require("../models/user.js");
 require("dotenv").config();
 
-const MONGO_URL =
-  process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL;
 
 main()
   .then(() => {

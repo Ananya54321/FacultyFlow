@@ -5,8 +5,7 @@ const Teacher = require("../models/teacher.js");
 const Department = require("../models/department.js");
 require("dotenv").config();
 
-const MONGO_URL =
-  process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL;
 
 main()
   .then(() => {

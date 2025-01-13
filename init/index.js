@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 // const Subject = require("../models/Subject");
 const initSubData = require("./subdata.js");
 require("dotenv").config();
-const MONGO_URL =
-  process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL;
 
 main()
   .then(() => {

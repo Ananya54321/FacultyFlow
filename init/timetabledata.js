@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const Subject = require("../models/subject.js");
 const Timetable = require("../models/timetable.js");
+require("dotenv").config();
 
-const MONGO_URL =
-  process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL;
 
 main()
   .then(() => {

@@ -5,7 +5,7 @@ const Teacher = require("../models/teacher.js");
 const Department = require("../models/department.js");
 
 const MONGO_URL =
-  "mongodb+srv://22b81a05y9:ananya521@clusterprojects.7x4tczd.mongodb.net/fwms";
+  process.env.MONGO_URL;
 
 main()
   .then(() => {

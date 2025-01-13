@@ -5,7 +5,7 @@ const Announcement = require("../models/announcement.js");
 const User = require("../models/user.js");
 
 const MONGO_URL =
-  "mongodb+srv://22b81a05y9:ananya521@clusterprojects.7x4tczd.mongodb.net/fwms";
+  process.env.MONGO_URL;
 
 main()
   .then(() => {
